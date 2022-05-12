@@ -1,0 +1,12 @@
+{% extends "main/base.html" %} 
+{% block title %}Index{% endblock title %} 
+{% block header %}Контактные данные компании{% endblock header %} 
+{% block content %}
+Интеллектуальные программные системы
+Адрес: г. Москва, ул. Короленко, д. 24
+templates/firstapp/contact.html
+
+
+<h2>Здесь использовалась переадресация с "contact1" на "contact"</h2>
+{% block about %}{% endblock about %}  <!--создан блок в этом документе (не унаследован от base.html) -->
+{% endblock content %} 
