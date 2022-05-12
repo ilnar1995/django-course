@@ -19,7 +19,7 @@ def link(request):
 def contact(request):         
     return render(request, "main/contact.html")
 def contact1(request):           #временная переадресация
-    return HttpResponseRedirect("/contact") 
+    return HttpResponseRedirect("/project/contact/") 
 def products(request1, productid=1): 
     category=request1.GET.get("cat", "")
     output = "<h2>Продукт № {0} Категория: {1} </h2>".format(productid,category) 
