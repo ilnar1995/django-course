@@ -13,7 +13,9 @@
 {% endif %}
 
 <p>Работа цикла for:</p>
-{% for i in cat %}
-<li>{{i}}</li>
-{% endfor %}
+    {% for i in cat %}
+            <li>{{i}}</li>
+        {% empty %} 
+            <li>Категории продуктов отсутствуют</li>
+        {% endfor %}
 {% endblock content %} 
