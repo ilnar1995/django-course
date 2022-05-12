@@ -1,8 +1,9 @@
 {% extends "main/base.html" %} 
 {% load static%}
 {% block title %}Главная стр{% endblock title %} 
-{% block header %}Главная страница{% endblock header %} 
+{% block header %}Главная страница{% endblock header %}
 {% block content %}
+
 <div class="container">{{header}}</div> 
 <p>Имя: {{user.name}} Age: {{user.age}}</p>
 <p>Адрес: ул. {{address.0}}, д. {{address.l}}, кв. {{address.2}}</p> 
@@ -11,6 +12,7 @@
 <font style="color: red"> 
 <h1>Домашняя страница Django!</h1> 
 <font style="color: blue; font-size: 12рх"> 
-<h2>templates/firstapp/home.html</h2> 
+<h2>templates/firstapp/home.html</h2>  
 <img src="{% static 'main/images/image.jpg' %}"> 
-{% endblock content %} 
+
+{% endblock content %}
