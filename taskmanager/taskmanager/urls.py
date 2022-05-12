@@ -21,5 +21,5 @@ from django.conf.urls.static import static              # для добавле�
 
 urlpatterns = [
     path('admin/', admin.site.urls),                    # в нашем случае маршрут 'admin/' будет обрабатываться методом admin.site.urls
-    path('project/', include('main.urls'))
+    path('main_project/', include('main.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)   # добавления статических файлов css и тд.

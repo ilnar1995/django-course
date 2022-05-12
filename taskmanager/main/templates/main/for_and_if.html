@@ -1,7 +1,19 @@
 {% extends "main/base.html" %} 
-{% block title %}Index{% endblock title %} 
-{% block header %}Теги даты{% endblock header %} 
+{% block title %}цикл и условие{% endblock title %} 
+{% block header %}Условный оператор и цикл{% endblock header %} 
 {% block content %}
->{{ data.age }}
 
+<p>Работа условного оператора if:</p>
+{% if data.age > 65 %}
+<p>пенсионный возраст {{data.age}}</p>
+{% elif data.age >= 18 %}
+<p>приемлмый возраст {{data.age}}</p>
+{% else %}
+<p>несовершеннолетний возраст {{data.age}}</p>
+{% endif %}
+
+<p>Работа цикла for:</p>
+{% for i in cat %}
+<li>{{i}}</li>
+{% endfor %}
 {% endblock content %} 

@@ -11,7 +11,7 @@ def index(request):
         data = { "header": header, "langs": langs, "user": user, "address": addr}
         return render(request, "main/index.html", context=data) 
 def link(request):
-    data = {"age" : 50}
+    data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]
     return render(request, "main/for_and_if.html", context={"data":data,"cat":cat}) 
 #def link(request):
@@ -19,7 +19,7 @@ def link(request):
 def contact(request):         
     return render(request, "main/contact.html")
 def contact1(request):           #временная переадресация
-    return HttpResponseRedirect("/project/contact/") 
+    return HttpResponseRedirect("/main_project/contact/") 
 def products(request1, productid=1): 
     category=request1.GET.get("cat", "")
     output = "<h2>Продукт № {0} Категория: {1} </h2>".format(productid,category) 
