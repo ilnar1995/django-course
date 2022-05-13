@@ -2,9 +2,15 @@
 {% block title %}Контакты{% endblock title %} 
 {% block header %}Контактные данные компании{% endblock header %} 
 {% block content %}
-Интеллектуальные программные системы
-Адрес: г. Москва, ул. Короленко, д. 24
-templates/firstapp/contact.html
+
+<div>{{header}}</div> 
+<p>{{address.0}}, {{address.1}}, {{address.2}}</p> 
+<p style="font-weight:bold; color: red">Данные для связи:</p>  
+<!-- Это встроенный стиль -->     
+<font style="color: red"> 
+<h1>Почтовый адрес: {{emailadress}}</h1> 
+<font style="color: blue; font-size: 12рх"> 
+<h2>тел.:{{tell}}</h2>  
 
 
 <h2>Здесь использовалась переадресация с "contact1" на "contact"</h2>

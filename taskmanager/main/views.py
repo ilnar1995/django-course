@@ -1,23 +1,32 @@
 #from unicodedata import category
 #from unicodedata import category
+import email
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound
+from .forms import UserForm
 
 def index(request):
-        header = "Персональные данные" # обычная переменная 
-        langs = ["Английский", "Немецкий", "Испанский"] # массив 
-        user = {"name": "Максим,", "age": 30} # словарь 
-        addr = ("Виноградная", 23, 45) # кортеж 
-        data = { "header": header, "langs": langs, "user": user, "address": addr}
-        return render(request, "main/index.html", context=data) 
+    if request.method == "POST": 
+        name = request.POST.get("name") # получить значение поля Имя 
+        age = request.POST.get("age") # получить значение поля Возраст 
+        output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
+        return HttpResponse(output) 
+    else: 
+        userform = UserForm() 
+        return render(request, "main/index.html", {"form":userform}) 
 def link(request):
     data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]
     return render(request, "main/for_and_if.html", context={"data":data,"cat":cat}) 
 #def link(request):
 #    return HttpResponse("<h2>0 сайте</h2>")        #простой вывод информации
-def contact(request):         
-    return render(request, "main/contact.html")
+def contact(request):  
+    header = "Адрес" # обычная переменная 
+    addr = ("г. Москва", "ул. Короленко","д. 24" ) # кортеж 
+    emailadress = "pochta@gmail.com"
+    tell = "+7(945)345-67-21"
+    data = { "header": header, "address": addr, "emailadress" : emailadress, "tell":tell}    
+    return render(request, "main/contact.html", context=data)
 def contact1(request):           #временная переадресация
     return HttpResponseRedirect("/main_project/contact/") 
 def products(request1, productid=1): 
@@ -37,3 +46,5 @@ def date(request):           #постоянная переадресация
 
 def m404(request): 
     return HttpResponseNotFound("<h2>Not Found</h2>")
+
+
