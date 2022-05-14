@@ -1,0 +1,15 @@
+{% extends "main/base.html" %} 
+{% load static%}
+
+{% block title %}Поля{% endblock title %} 
+{% block header %}Поля (формы){% endblock header %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <tаblе> 
+    {{form}} 
+    </tаblе>
+    <input type="submit" vаluе="Отправить" >
+</form>
+
+{% endblock content %}

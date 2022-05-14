@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpRespons
 from .forms import UserForm
 
 def index(request):
-    if request.method == "POST": 
+    if request.method == "POST":
         name = request.POST.get("name") # получить значение поля Имя 
         age = request.POST.get("age") # получить значение поля Возраст 
         output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
@@ -14,6 +14,15 @@ def index(request):
     else: 
         userform = UserForm() 
         return render(request, "main/index.html", {"form":userform}) 
+def field(request):
+    if request.method == "POST": 
+        name = request.POST.get("name") # получить значение поля Имя 
+        age = request.POST.get("age") # получить значение поля Возраст 
+        output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
+        return HttpResponse(output) 
+    else: 
+        userform = UserForm() 
+        return render(request, "main/field.html", {"form":userform})
 def link(request):
     data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]

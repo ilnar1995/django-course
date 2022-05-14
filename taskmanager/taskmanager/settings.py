@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os                                                                               #при добавлении медиа пути MEDIA_ROOT
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-$bbprhs(wc(+6^bc)@&)88^(-u*ckg*-iju)f1x4i85hi9o6pe
 # SECURITY WARNING: don't run with debug turned on in production!                           отображение ошибок на веб сайте
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']              # добавил параметры внутрь [] так.как не запускался сервер после замены параметра DEBUG на False
 
 
 # Application definition
@@ -118,9 +119,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [                            #я добавил из сайта с инсрукцией здесь указываются каталоги со статичными файлами
+STATICFILES_DIRS = [                                                     #я добавил из сайта с инсрукцией здесь указываются каталоги со статичными файлами
     BASE_DIR / "main/static",
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                            #я добавил для формирования пути к каталогу media
+MEDIA_URL = "/media/"                                                   #я добавил для добавления префикса к медиа файлам
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

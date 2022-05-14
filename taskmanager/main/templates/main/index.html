@@ -3,11 +3,7 @@
 {% block title %}Главная стр{% endblock title %} 
 {% block header %}Главная страница{% endblock header %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <tаblе> 
-    {{form}} 
-    </tаblе>
+<form method="GET">
     <input type="submit" vаluе="Отправить" >
 </form>
 <img src="{% static 'main/images/image.jpg' %}"> 

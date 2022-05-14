@@ -15,11 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+#from . import settings
 
-from django.conf import settings                        # для добавления статических файлов
+from django.conf import settings                        # для добавления статических файлов это файл setting в этой же папке
 from django.conf.urls.static import static              # для добавления статических файлов
 
 urlpatterns = [
     path('admin/', admin.site.urls),                    # в нашем случае маршрут 'admin/' будет обрабатываться методом admin.site.urls
     path('main_project/', include('main.urls'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)   # добавления статических файлов css и тд.
+] 
+if settings.DEBUG: # если мы в режиме отладки то:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)   # добавления статических файлов css и тд.
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
