@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
+    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,10 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = [                                                     #я добавил из сайта с инсрукцией здесь указываются каталоги со статичными файлами
-    BASE_DIR / "main/static",
-]
+#STATICFILES_DIRS = [ BASE_DIR / "main/static", ]                                                  #я добавил из сайта с инсрукцией здесь указываются каталоги со статичными файлами
+    
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                            #я добавил для формирования пути к каталогу media
 MEDIA_URL = "/media/"                                                   #я добавил для добавления префикса к медиа файлам

@@ -3,7 +3,8 @@
 import email
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound
-from .forms import UserForm
+from .forms import UserForm1, UserForm2
+from django.urls import reverse                                             #если вам нужно использовать что-то похожее на тег шаблона url в вашем коде
 
 def index(request):
     if request.method == "POST":
@@ -12,17 +13,26 @@ def index(request):
         output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
         return HttpResponse(output) 
     else: 
-        userform = UserForm() 
+        userform = UserForm1() 
         return render(request, "main/index.html", {"form":userform}) 
-def field(request):
+def field1(request):
     if request.method == "POST": 
         name = request.POST.get("name") # получить значение поля Имя 
         age = request.POST.get("age") # получить значение поля Возраст 
         output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
         return HttpResponse(output) 
     else: 
-        userform = UserForm() 
-        return render(request, "main/field.html", {"form":userform})
+        userform = UserForm1() 
+        return render(request, "main/field1.html", {"form":userform})
+def field2(request):
+    if request.method == "POST": 
+        name = request.POST.get("name") # получить значение поля Имя 
+        age = request.POST.get("age") # получить значение поля Возраст 
+        output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
+        return HttpResponse(output) 
+    else: 
+        userform = UserForm2() 
+        return render(request, "main/field2.html", {"form":userform})
 def link(request):
     data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]
@@ -37,7 +47,7 @@ def contact(request):
     data = { "header": header, "address": addr, "emailadress" : emailadress, "tell":tell}    
     return render(request, "main/contact.html", context=data)
 def contact1(request):           #временная переадресация
-    return HttpResponseRedirect("/main_project/contact/") 
+    return HttpResponseRedirect(reverse('contact')) 
 def products(request1, productid=1): 
     category=request1.GET.get("cat", "")
     output = "<h2>Продукт № {0} Категория: {1} </h2>".format(productid,category) 
