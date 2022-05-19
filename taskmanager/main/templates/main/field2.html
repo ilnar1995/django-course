@@ -4,7 +4,7 @@
 {% block title %}Поля{% endblock title %} 
 {% block header %}Поля (формы){% endblock header %}
 {% block content %}
-<form method="post">
+<form action="{% url 'field2' %}" method="post">
     {% csrf_token %}
     <div class="form-group"> 
         {% for field in form %} 
@@ -15,5 +15,6 @@
     </div> 
     <input type="submit" vаluе="Отправить" >
 </form>
+
 
 {% endblock content %}
