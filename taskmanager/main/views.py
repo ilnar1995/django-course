@@ -25,14 +25,15 @@ def field1(request):
         userform = UserForm1() 
         return render(request, "main/field1.html", {"form":userform})
 def field2(request):
-    if request.method == "POST": 
-        name = request.POST.get("name") # получить значение поля Имя 
-        age = request.POST.get("age") # получить значение поля Возраст 
-        output = "<h2>Пользователь</h2><h3>Имя - {0}, Возраст - {1}</hЗ>".format(name, age) 
-        return HttpResponse(output) 
-    else: 
-        userform = UserForm2() 
-        return render(request, "main/field2.html", {"form":userform})
+    if request.method == "POST":
+        userform = UserForm2(request.POST) 
+        if userform.is_valid():                                                                                 #метод is_valid(), который выполняет проверку всех полей формы на ошибку
+            print(userform.cleaned_data)                                                                        #отобразит словарь cleaned_data в консоли 
+            #name = userform.cleaned_data["name"] 
+            #return HttpResponse("<h2>Имя введено коррректно -{0}</h2>".format (name)) 
+    else:
+        userform = UserForm2()
+    return render(request, "main/field2.html", {"form": userform})
 def link(request):
     data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]

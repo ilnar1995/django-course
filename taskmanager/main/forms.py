@@ -18,8 +18,8 @@ class UserForm1(forms.Form):
     comment = forms. CharField ( label="Комментарий", widget=forms.Textarea) 
 
 class UserForm2(forms.Form):
-    name = forms.CharField(label="Имя клиента") 
-    age = forms.IntegerField(label="Boзpacт клиента") 
+    name = forms.CharField(label="Имя клиента", required=False) 
+    age = forms.IntegerField(label="Boзpacт клиента", required=False) 
 
 class CoппnentForm ( forms. Form) :
     name = forms. CharField(initial=' Ваше имя' ) 
