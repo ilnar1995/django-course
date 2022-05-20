@@ -3,8 +3,9 @@
 import email
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotFound
-from .forms import UserForm1, UserForm2
+from .forms import *
 from django.urls import reverse                                             #если вам нужно использовать что-то похожее на тег шаблона url в вашем коде
+from django.core.mail import send_mail
 
 def index(request):
     if request.method == "POST":
@@ -34,6 +35,23 @@ def field2(request):
     else:
         userform = UserForm2()
     return render(request, "main/field2.html", {"form": userform})
+def field3(request):
+    if request.method == "POST":
+        form = UserForm3(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            sender = form.cleaned_data['sender']
+            cc_myself = form.cleaned_data['cc_myself']
+
+            recipients = ['iii95@yandex.ru']
+            if cc_myself:
+                recipients.append(sender)
+
+            send_mail(subject, message, sender, recipients)
+    else:
+        form = UserForm3()
+    return render(request, "main/field3.html", {"form": form})
 def link(request):
     data = {"age" : 80}
     cat = ["Ноутбуки", "Принтеры", "Сканеры", "диски", "Шнуры"]

@@ -10,6 +10,7 @@ urlpatterns = [
     path('date/', views.date, name="date"),
     path('field1',views.field1, name="field1"),
     path('field2',views.field2, name="field2"),
+    path('field3',views.field3, name="field3"),
     path('about/',TemplateView.as_view(template_name="main/about.html"), name="about"),           #ДЛЯ ПРОЯМОГО ОБРАЩЕНИЯ К ШАБЛОНУ
     #re_path(r'^products/$', views.products), # маршрут по умолчанию #вариант через re_path
     #re_path(r'^products/(?P<productid>\d+)/', views.products),      #вариант через re_path
