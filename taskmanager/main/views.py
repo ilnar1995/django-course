@@ -45,7 +45,7 @@ def field3(request):
             cc_myself = form.cleaned_data['cc_myself']
 
             sender = 'nnnooo2@yandex.ru'
-            if cc_myself and sender != recipient:
+            if cc_myself and (not (sender in recipient)):
                 recipient.append(sender)
 
             send_mail(subject, message, sender, recipient)
