@@ -41,14 +41,14 @@ def field3(request):
         if form.is_valid():
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
-            sender = form.cleaned_data['sender']
+            recipient = [form.cleaned_data['recipient']]
             cc_myself = form.cleaned_data['cc_myself']
 
-            recipients = ['iii95@yandex.ru']
-            if cc_myself:
-                recipients.append(sender)
+            sender = 'nnnooo2@yandex.ru'
+            if cc_myself and sender != recipient:
+                recipient.append(sender)
 
-            send_mail(subject, message, sender, recipients)
+            send_mail(subject, message, sender, recipient)
     else:
         form = UserForm3()
     return render(request, "main/field3.html", {"form": form})

@@ -25,7 +25,7 @@ class UserForm2(forms.Form):
 class UserForm3(forms.Form):
     subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
-    sender = forms.EmailField()
+    recipient = forms.EmailField()
     cc_myself = forms.BooleanField(label="Копию себе", required=False)
 
 class CoппnentForm ( forms. Form) :
