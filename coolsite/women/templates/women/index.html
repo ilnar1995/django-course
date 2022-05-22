@@ -2,14 +2,20 @@
 
 {% block content %}
 <ul class="list-articles">
-	{% for p in posts %}
-			<li><h2>{{p.title}}</h2>
-	{% autoescape on %}
-	{{p.content|linebreaks|truncatewords:50}}
+	{% for p in posts %}	<!-- выводит контент в цикле -->
+			<li><div class="article-panel">
+				<p class="first">Категория: {{p.cat}}</p>  <!-- обращается к методу __str__ у класса category через поле cat у класса Women--> 
+				<p class="last">Дата: {{p.time_update|date:"d-m-Y H:i:s"}}</p>	<!-- использован фильтр для оторбажения даты в формате 03-01-2021 09:01:08-->
+			</div>
+						
+				<h2>{{p.title}}</h2>
+	{% autoescape on %}					<!-- тэг экранирует содержиое т.е. выводит все символы как есть если установлен значен 'on' если поставить 'off' то применит тэги в тексте -->
+	{{p.content|linebreaks|truncatewords:50}}   <!-- фильтр linebreaks ставит тэги абзаца <p> а фильтр truncatewords:50  показывает первые 50 слов -->
 	{% endautoescape %}
 			<div class="clear"></div>
 			<p class="link-read-post"><a href="{{ p.get_absolute_url }}">Читать пост</a></p>
+			<!--<p class="link-read-post"><a href="{ url 'post' p.pk }">Читать пост</a></p>    можно но не удобно потому что обычно используются слаги а не цифры-->
 			</li>
-	{% endfor %}
+	{% endfor %}  <!-- конец цикла -->
 </ul>
 {% endblock %}

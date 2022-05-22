@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'pdk8bcv@oy$o4asp2100ymrv(0y$&qy5#oh-i($2s=j4fa4uvp'
+SECRET_KEY = 'pdk8bcv@oy$o4asp2100yfdgdsmrv(0y$&qy5#oh-i($2s=j4fa4uvp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -82,6 +82,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -104,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -118,9 +119,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = []
+STATIC_URL = '/static/'                                          #константа будет добавлять к URL статическим файдлам префикс 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')                      #путь к общей статической папке, используемой реальным веб-сервером
+STATICFILES_DIRS = []                                               #список допольнительных нестандартных путей к стат файлам, используемой для сбора и для режима отладки
+#в конце все статические файля будут собраные в папку static в корневой папке проекта перед эксплуатацией испльзуя команду: python manage.py collectstatic
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                #константы для медиа файлов. MEDIA_ROOT будет ссылаться на папку 'media' где мы будем располагать все загруженные файлы
+MEDIA_URL = '/media/'                                       #константа будет добавлять к URL медиа файдлов префикс 'media'
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'                #добавил чтоб устранить предупреждение с автоназначением первичных ключей
