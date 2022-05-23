@@ -23,10 +23,15 @@ class Women(models.Model):
         ordering = ['-time_create', 'title']                        # для сортировки(сначала по полю 'time_create' если одинаково то по 'title')
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, verbose_name='Имя кат.')   # verbose_name исп-ся для измнения поля в шапке админ панели
 
     def __str__(self):
         return self.name                                            # чтобы возвращать имя категории
 
     def get_absolute_url(self):                                     
         return reverse('category', kwargs={'cat_id': self.pk}) 
+        
+    class Meta:
+        verbose_name = "Категории"                          # чтобы на админ панели названия были как мы хотим
+        verbose_name_plural = "Категории"                   # чтобы на админ панели названия были как мы хотим
+        ordering = ['name']                        # для сортировки(сначала по полю 'time_create' если одинаково то по 'title')
