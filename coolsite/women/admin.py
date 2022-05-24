@@ -9,11 +9,13 @@ class WomenAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')                                            #где можно производить поиск
     list_editable = ('is_published',)                                               #делает редактируемым поле
     list_filter = ('is_published', 'time_create')                                   #справа добавил сайд бар для фильтрации
+    prepopulated_fields = {"slug":("title",)}                                        #автоматический формирует слаг из title
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')                                                   #те поля гду нужны ссылки на редактирование
     list_display_links =('id', 'name')                                              #те поля гду нужны ссылки на редактирование
     search_fields = ('name',)                                                       #где можно производить поиск
+    prepopulated_fields = {"slug":("name",)}                                         #автоматический формирует слаг из name
 
 
 admin.site.register(Women, WomenAdmin)                                              # для регистрации модели в админ панели (второй параметр для редактирования панели)
