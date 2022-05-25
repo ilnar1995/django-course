@@ -39,8 +39,8 @@ def login(request):
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
-def show_post(request, post_id):
-    post =get_object_or_404(Women, pk=post_id)         # функция вибирает из модели Women пост с первичным ключом post_id, если не находит то выдает ошибкиу 404
+def show_post(request, post_slug):
+    post =get_object_or_404(Women, slug=post_slug)         # функция вибирает из модели Women пост с первичным ключом post_id, если не находит то выдает ошибкиу 404
 
     context = {
         'post': post,

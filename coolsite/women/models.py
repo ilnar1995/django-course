@@ -16,7 +16,7 @@ class Women(models.Model):
         return self.title                                           # чтобы возвращать заголовок текущей записи
 
     def get_absolute_url(self):                                     # стандартная админ панель использует именно такое название метода класса (дать именно такое название)
-        return reverse('post', kwargs={'post_id': self.pk})         # формирование динамич url адреса связанный с базой даннх ('post_id' это парамтр получаемый из URL)
+        return reverse('post', kwargs={'post_slug': self.slug})         # формирование динамич url адреса связанный с базой даннх ('post_id' это парамтр получаемый из URL)
 
     class Meta:
         verbose_name = "Известные женщины"                          # чтобы на админ панели названия были как мы хотим
