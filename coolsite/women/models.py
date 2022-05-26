@@ -5,12 +5,12 @@ from sqlalchemy import ForeignKey
 class Women(models.Model):
     title = models.CharField(max_length=255, verbose_name = "заголовок")            # verbose_name исп-ся для измнения поля в шапке админ панели
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")  # unique=True означает уникальность, db_index чтобы это поле было индесируемым для быстрого поиска
-    content = models.TextField(blank=True)
+    content = models.TextField(blank=True, verbose_name = "текст статьи")
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name = "фото")
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)        # Category в кавычках потому что он идет ниже (если был бы высше можно было бы без кавычек) null=True т.к. в таблице caregory еще нет значении
+    is_published = models.BooleanField(default=True, verbose_name = "публикация")
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name = "категории")        # Category в кавычках потому что он идет ниже (если был бы высше можно было бы без кавычек) null=True т.к. в таблице caregory еще нет значении
 
     def __str__(self):
         return self.title                                           # чтобы возвращать заголовок текущей записи
