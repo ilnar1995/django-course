@@ -1,5 +1,7 @@
+from django.views.generic.list import ListView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from matplotlib.style import context
 from sympy import content
 
 from women.forms import AddPostForm
@@ -12,8 +14,23 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Войти", 'url_name': 'login'}
 ]
 
+class WomenHome(ListView):
+    model = Women
+    template_name = 'women/index.html'                  #переопределение шаблона (по умолчанию он ищет "women/women_list.html")
+    context_object_name = 'posts'                       #переопределяем имя переменной класса представления WomenHome (стандартное "object_list")
+    #extra_context = {'title':'Главная страница'}
 
-def index(request):
+    def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
+        context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
+        context['menu'] = menu                                  #добавляем пункты 
+        context['title'] = 'Главная страница'
+        context['cat_selected'] = 0
+        return context
+
+    def get_queryset(self):                                     #функ для фильтрации по модели Women
+        return Women.objects.filter(is_published=True)
+
+""" def index(request):
     posts = Women.objects.all()
     context = {
         'posts': posts,
@@ -21,9 +38,8 @@ def index(request):
         'title': 'Главная страница',
         'cat_selected': 0
     }
-
     return render(request, 'women/index.html', context=context)
-
+ """
 def about(request):
     return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
 
@@ -64,13 +80,36 @@ def show_post(request, post_slug):
     }
     return render(request, 'women/post.html', context=context)
 
-def show_category(request, cat_id):
-    posts = Women.objects.filter(cat_id=cat_id)
+def delete_post(request, post_slug):
+    Women.objects.filter(slug=post_slug).delete()  
+    return redirect('home')
+
+
+class WomenCategory(ListView):
+    model = Women
+    template_name = 'women/index.html'                  #переопределение шаблона (по умолчанию он ищет "women/women_list.html")
+    context_object_name = 'posts'                       #переопределяем имя переменной класса представления WomenHome (стандартное "object_list")
+    #extra_context = {'title':'Главная страница'}
+
+    def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
+        context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
+        context['menu'] = menu                                  #добавляем пункты 
+        context['title'] = 'Главная страница'
+        context['cat_selected'] = 0
+        return context
+
+    def get_queryset(self):                                     #функ для фильтрации по модели Women
+        return Women.objects.filter(is_published=True)
+
+def show_category(request, cat_slug):
+    posts = Women.objects.filter(cat__slug=cat_slug)
+    for item in posts:
+        pass
+    print("item.cat_id")
     context = {
         'posts': posts,
         'menu': menu,
         'title': 'Главная страница',
-        'cat_selected': cat_id
+        'cat_selected': cat_slug
     }
-
     return render(request, 'women/index.html', context=context)

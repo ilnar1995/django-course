@@ -15,6 +15,7 @@
 	{{p.content|linebreaks|truncatewords:50}}   <!-- фильтр linebreaks ставит тэги абзаца <p> а фильтр truncatewords:50  показывает первые 50 слов -->
 	{% endautoescape %}
 			<div class="clear"></div>
+			<p class="link-read-post"><a href="/post/delete/{{ p.slug }}">Удалить пост</a></p>
 			<p class="link-read-post"><a href="{{ p.get_absolute_url }}">Читать пост</a></p>
 			<!--<p class="link-read-post"><a href="{ url 'post' p.pk }">Читать пост</a></p>    можно но не удобно потому что обычно используются слаги а не цифры-->
 			</li>
