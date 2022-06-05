@@ -1,6 +1,9 @@
+import email
 from unicodedata import category
 from django import forms
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class AddPostForm(forms.ModelForm):                                                 #для форм связанных с моделью
     def __init__(self, *args, **kwargs):                                            #функция чтобы поменять начальное значение поля 'cat'
@@ -22,7 +25,15 @@ class AddPostForm(forms.ModelForm):                                             
 
         return title
 
-
+class RegisterUserForm(UserCreationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))            #переопределили стандартные атрибуты базового класса для изменения свойтва
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-input'})) 
+    password1 = forms.CharField(label='Пароль', widget=forms.TextInput(attrs={'class': 'form-input'}))          #переопределили стандартные атрибуты базового класса для изменения свойтва
+    password2 = forms.CharField(label='Повтор пароля', widget=forms.TextInput(attrs={'class': 'form-input'}))   #переопределили стандартные атрибуты базового класса для изменения свойтва
+    class Meta:                                                                     #class для расширения базового класса
+        model = User                                                                #модель юзер это модель котор работает с таблицей auth_user
+        fields = ('username', 'password1', 'password2')       #список полей котор надо отобразить в форме
+        
 
 #class AddPostForm(forms.Form):                                                     #для форм не связанных с моделью
 #    title = forms.CharField(max_length=255)

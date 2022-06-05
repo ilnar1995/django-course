@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from sympy import content
 import women
 
-from women.forms import AddPostForm
+from women.forms import *
 
 from .models import *
 from .utils import *
@@ -92,6 +92,16 @@ class WomenCategory(DataMixin, ListView):
 
     def get_queryset(self):                                     #функ для фильтрации по модели Women
         return Women.objects.filter(cat__slug=self.kwargs['cat_slug'],is_published=True)
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = RegisterUserForm
+    template_name = 'women/register.html'      
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
+        context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
+        c_def = self.get_user_context(title='Регистрация') #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
+        return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
 
 
 
