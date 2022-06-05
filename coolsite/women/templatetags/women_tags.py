@@ -1,3 +1,5 @@
+# создали для пользовательских тэгов
+
 from atexit import register
 from django import template
 from women.models import *
