@@ -3,10 +3,12 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from matplotlib.style import context
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout, login
 from sympy import content
 import women
 
@@ -35,7 +37,7 @@ class WomenHome(DataMixin, ListView):
 def about(request):
     return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
 
-class AddPage(LoginRequiredMixin, DataMixin, CreateView):
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):       #LoginRequiredMixin класс для проверки авторизации пользователя
     form_class = AddPostForm
     template_name = 'women/addpage.html'
     success_url = reverse_lazy('home')                          #если надо после заполнения форма перейти на какой либо URL а не по get_absolute_url()
@@ -51,7 +53,7 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
 def contact(request):
     return HttpResponse("Обратная связь")
 
-def login(request):
+def login1(request):
     return HttpResponse("Авторизация")
 
 
@@ -103,6 +105,27 @@ class RegisterUser(DataMixin, CreateView):
         c_def = self.get_user_context(title='Регистрация') #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
         return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
 
+    def form_valid(self, form):                                 #переопределяем функ котор выпол-ся при успешном заполнении формы(для перехода по нежной ссылке при заплнении формы)
+        user = form.save()                                      #сохранить значения формы в БД (необязательно если не переопределяется функция form_valid)
+        login(self.request, user)                               #чтобы автоматический авторизоваля при заплнении формы
+        return redirect('home')                                 #переход при успеш заполнении формы
+
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'women/login.html'
+
+    def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
+        context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
+        c_def = self.get_user_context(title='Авторизация') #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
+        return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
 
 
 

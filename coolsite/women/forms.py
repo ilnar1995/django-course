@@ -3,6 +3,7 @@ from unicodedata import category
 from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 class AddPostForm(forms.ModelForm):                                                 #для форм связанных с моделью
@@ -27,13 +28,18 @@ class AddPostForm(forms.ModelForm):                                             
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))            #переопределили стандартные атрибуты базового класса для изменения свойтва
-    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-input'})) 
-    password1 = forms.CharField(label='Пароль', widget=forms.TextInput(attrs={'class': 'form-input'}))          #переопределили стандартные атрибуты базового класса для изменения свойтва
-    password2 = forms.CharField(label='Повтор пароля', widget=forms.TextInput(attrs={'class': 'form-input'}))   #переопределили стандартные атрибуты базового класса для изменения свойтва
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'})) 
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))          #переопределили стандартные атрибуты базового класса для изменения свойтва
+    password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))   #переопределили стандартные атрибуты базового класса для изменения свойтва
     class Meta:                                                                     #class для расширения базового класса
         model = User                                                                #модель юзер это модель котор работает с таблицей auth_user
-        fields = ('username', 'password1', 'password2')       #список полей котор надо отобразить в форме
+        fields = ('username', 'password1', 'password2', 'email')                    #список полей котор надо отобразить в форме(если не вносить какой либо атрибут, данные не вносились в БД)
         
+class LoginUserForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
 
 #class AddPostForm(forms.Form):                                                     #для форм не связанных с моделью
 #    title = forms.CharField(max_length=255)
