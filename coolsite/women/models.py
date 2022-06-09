@@ -21,7 +21,7 @@ class Women(models.Model):
     class Meta:
         verbose_name = "Известные женщины"                          # чтобы на админ панели названия были как мы хотим
         verbose_name_plural = "Известные женщины"                   # чтобы на админ панели названия были как мы хотим
-        ordering = ['-time_create', 'title']                        # для сортировки(сначала по полю 'time_create' если одинаково то по 'title')
+        ordering = ['-time_create', 'title']                        # для сортировки(сначала по полю 'time_create' если одинаково то по 'title') (если не назначен при пагинации будут предупреждения)
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True, verbose_name='Имя кат.')   # verbose_name исп-ся для измнения поля в шапке админ панели
