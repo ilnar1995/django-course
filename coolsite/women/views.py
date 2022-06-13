@@ -1,4 +1,5 @@
 from re import template
+from tkinter.messagebox import NO
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -6,6 +7,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from matplotlib.pyplot import title
 from matplotlib.style import context
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout, login
@@ -31,7 +33,7 @@ class WomenHome(DataMixin, ListView):
         return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
 
     def get_queryset(self):                                     #функ для фильтрации по модели Women
-        return Women.objects.filter(is_published=True)
+        return Women.objects.filter(is_published=True).select_related('cat') #select_related, чтобы совместно с данными загружились и данные из таблицы категории это для того чтобы не нагружать СУБД  (сжатого запроса для ForeignKey) 
 
 
 def about(request):
@@ -93,11 +95,12 @@ class WomenCategory(DataMixin, ListView):
 
     def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
         context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
-        c_def = self.get_user_context(title='Категория: '+ str(context['posts'][0].cat), cat_selected = context['posts'][0].cat_id) #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
+        c = Category.objects.get(slug=self.kwargs['cat_slug'])
+        c_def = self.get_user_context(title='Категория: '+ str(c.name), cat_selected = c.pk) #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
         return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
 
     def get_queryset(self):                                     #функ для фильтрации по модели Women
-        return Women.objects.filter(cat__slug=self.kwargs['cat_slug'],is_published=True)
+        return Women.objects.filter(cat__slug=self.kwargs['cat_slug'],is_published=True).select_related('cat')  #с помощью self.kwargs['имя слага'] мы можем поучить значение слаг
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
@@ -127,9 +130,27 @@ class LoginUser(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
-def logout_user(request):
+def logout_user(request):                                       #функция выхода из учетки
     logout(request)
     return redirect('home')
+
+
+class WomenSearch(DataMixin, ListView):
+    model = Women
+    template_name = 'women/search.html'                  #переопределение шаблона (по умолчанию он ищет "women/women_list.html")
+    context_object_name = 'posts'                       #переопределяем имя переменной класса представления WomenHome (стандартное "object_list")
+    #extra_context = {'title':'Главная страница'}
+
+    def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
+        context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
+        c_def = self.get_user_context(title='Главная страница',cat_selected = 4) #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
+        return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
+
+    def get_queryset(self):                                     #функ для фильтрации по модели Women
+        a = ""
+        if self.request.GET.get("q") != None:
+            a = self.request.GET.get("q")   
+        return Women.objects.filter(is_published=True, title__icontains = a).select_related('cat') #select_related, чтобы совместно с данными загружились и данные из таблицы категории это для того чтобы не нагружать СУБД  (сжатого запроса для ForeignKey) 
 
 
 

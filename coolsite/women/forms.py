@@ -5,6 +5,7 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
 
 class AddPostForm(forms.ModelForm):                                                 #для форм связанных с моделью
     def __init__(self, *args, **kwargs):                                            #функция чтобы поменять начальное значение поля 'cat'
@@ -31,6 +32,7 @@ class RegisterUserForm(UserCreationForm):
     email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'})) 
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))          #переопределили стандартные атрибуты базового класса для изменения свойтва
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))   #переопределили стандартные атрибуты базового класса для изменения свойтва
+    captcha = CaptchaField(label='Введите символ с картинки')
     class Meta:                                                                     #class для расширения базового класса
         model = User                                                                #модель юзер это модель котор работает с таблицей auth_user
         fields = ('username', 'password1', 'password2', 'email')                    #список полей котор надо отобразить в форме(если не вносить какой либо атрибут, данные не вносились в БД)

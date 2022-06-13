@@ -43,6 +43,13 @@
 		<li><a href="{% url 'home' %}">Все категории</a></li>
 {% endif %}
 
+{% if cat_selected == 4 %}
+		<li class="selected">Поиск</li>
+{% else %}
+		<li><a href="{% url 'search' %}">Поиск</a></li>
+{% endif %}
+
+
 		<!--{% show_categories 'name' cat_selected%}		 вставляем пользовательский шаблон использую пользовательский тэг -->
 
 		{% for c in cats %}
@@ -71,6 +78,7 @@
 	<div class="content-text">
 {% block content %}
 {% endblock %}
+<!-- Начало пагинации -->
 {% if page_obj.has_other_pages %}
 <nav class="list-pages">
     <ul>
@@ -99,6 +107,7 @@
     </ul>
 </nav>
 {% endif %}
+<!-- Конец пагинации -->
 	</div>
 <!-- Конец блока контента -->
 

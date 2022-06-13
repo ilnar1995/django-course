@@ -13,4 +13,5 @@ urlpatterns = [
     path('post/delete/<slug:post_slug>/', delete_post, name='delete_post'),
     path('post/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('category/<slug:cat_slug>/', WomenCategory.as_view(), name='category'),
+    path('search/', WomenSearch.as_view(), name='search'),
 ]

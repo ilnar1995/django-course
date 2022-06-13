@@ -13,7 +13,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
 ]
 
 class DataMixin:
-    paginate_by = 3
+    paginate_by = 2
     def get_user_context(self, **kwargs):                       #функция для формирования и динамического и статического контекста
         context = kwargs   
         cats = Category.objects.annotate(Count('women'))        #получаем категории и добавляем атрибут с колич-ом постов связанных с этой рубрикой
