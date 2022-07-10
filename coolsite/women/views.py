@@ -143,7 +143,7 @@ class WomenSearch(DataMixin, ListView):
 
     def get_context_data(self, object_list=None, **kwargs):     #функция для формирования и динамического и статического контекста
         context = super().get_context_data(**kwargs)            #через базовый класс ListView получам уже существующий контекст
-        c_def = self.get_user_context(title='Главная страница',cat_selected = 4) #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
+        c_def = self.get_user_context(title='Главная страница',cat_selected = 4, q = self.request.GET.get("q") ) #создаем словарь с помощью функции из класса DataMixin (self нужен чтобы мы могли обращаться к методам базового класса)
         return dict(list(context.items())+list(c_def.items()))  #объединяем словари и возвращаем получ-ый словарь
 
     def get_queryset(self):                                     #функ для фильтрации по модели Women

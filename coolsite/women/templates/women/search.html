@@ -3,10 +3,12 @@
 {% block content %}
 
 <form action="{% url 'search' %}" method="get" a>
-    <input type="search" aria-placeholder="Введите название" name="q">
+    <input type="search" placeholder="Введите имя" name="q">
 	<button type="submit">Поиск</button>
 </form>
-
+{% if q != None %}
+<h1>Результаты поиска: "{{ q }}"</h1>
+{% endif %}
 
 <ul class="list-articles">
 	{% for p in posts %}	<!-- выводит контент в цикле -->

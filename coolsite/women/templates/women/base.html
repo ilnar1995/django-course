@@ -20,6 +20,12 @@
 {% for m in menu %}  <!-- вывод меню в шапке через цикл -->
 			<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
 {% endfor %}
+
+			<form action="{% url 'search' %}" method="get" a>
+				<li><input type="search" placeholder="Введите имя" name="q"></li>
+				<li><button type="submit">Поиск</button></li>
+			</form>
+
 			{% if request.user.is_authenticated %}
 			<li class="last">{{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
 			{% else %}
@@ -84,7 +90,7 @@
     <ul>
 {% if page_obj.has_previous %}
 <li class="page-num">
-	<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+	<a href="?page={{ page_obj.previous_page_number }}&q={{ q }}">&lt;</a>
 </li>
 {% endif %}
 
@@ -93,14 +99,14 @@
         <li class="page-num page-num-selected">{{ p }}</li>
 		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
         <li class="page-num">
-            <a href="?page={{ p }}">{{ p }}</a>
+            <a href="?page={{ p }}&q={{ q }}">{{ p }}</a>
         </li>
 		{% endif %}
         {% endfor %}
 
 {% if page_obj.has_next %}
 <li class="page-num">
-	<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+	<a href="?page={{ page_obj.next_page_number }}&q={{ q }}">&gt;</a>
 </li>
 {% endif %}
 
